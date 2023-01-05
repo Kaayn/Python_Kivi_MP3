@@ -38,3 +38,22 @@ python .\app.py
 - L'interface graphique vas s'ouvrir, cliquer alors sur le bouttons "Parcourir" et charger le fichier Rue_Maurice_Carraz_2.waw situé a la racine du projet
 
 - Cliquez sur le bouton "Crypter" pour crypter le message et l'afficher dans votre console lorsqu'il est crytpé ; cliquez sur le bouton décrypter pour l'afficher votre console lorsqu'il est décripter.
+
+### Erreur de fonctionnement
+
+Le fichier peut être crypté mais ne s'affiche pas en décriptage car la valeur d'variable global n'arrive pas a être affecté et créer une erreur
+
+La convertion du fichier MP3 en Wav n'est pas fonctionnel mais le code est le suivant :
+
+```
+from os import path
+from pydub import AudioSegment
+
+# files                                                                         
+src = "nomDuFichier.mp3"
+dst = "nomDuFichier.wav"
+
+# convert wav to mp3                                                            
+sound = AudioSegment.from_mp3(src)
+sound.export(dst, format="wav")
+```
