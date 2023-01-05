@@ -13,6 +13,11 @@ import base64
 fenetre = tk.Tk()
 fenetre.title("Mon interface")
 
+
+with open("resultat.txt", "r") as fichier:
+    # Lisez le contenu du fichier
+    result = fichier.read()
+
 # Fonction de reconnaissance de parole
 
 
@@ -25,12 +30,9 @@ def reconnaissance_parole(fichier_audio):
         # Reconnaissance de la parole
         try:
             texte = r.recognize_google(audio, language="FR-fr")
-            print(texte)
-
             # Enregistrement du résultat dans un fichier
             with open("resultat.txt", "w") as fichier:
                 fichier.write(texte)
-                texteCrypte = texte
         except sr.UnknownValueError:
             print("La parole n'a pas pu être reconnue")
 
@@ -48,6 +50,31 @@ def ouvrir_fichier():
 btn_fichier = tk.Button(
     fenetre, text="Sélectionner un fichier audio", command=ouvrir_fichier)
 btn_fichier.pack()
+
+
+def cryptage():
+    encrypted = public_key.encrypt(
+        bytes(message, 'utf-8'),
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+    message_chiffre = base64.b64encode(encrypted)
+    print("Message chiffré: ", message_chiffre)
+    with open("messageChiffre.txt", "w") as fichier:
+        fichier.write(message_chiffre)
+
+
+with open("messageChiffre.txt", "r") as fichier:
+    # Lisez le contenu du fichier
+    cleDeCryptage = fichier.read()
+
+# Création d'un btn pour décrypter
+btn_cryptage = tk.Button(text="Crypté le fichier audio", command=cryptage)
+btn_cryptage.pack()
+
 
 # Creation du cryptage du texte
 # pip install cryptography
@@ -81,19 +108,7 @@ with open("public_key.pem", "rb") as key_file:
         key_file.read(),
         backend=default_backend()
     )
-message = input("Message chiffré: ")
-
-
-encrypted = public_key.encrypt(
-    bytes(message, 'utf-8'),
-    padding.OAEP(
-        mgf=padding.MGF1(algorithm=hashes.SHA256()),
-        algorithm=hashes.SHA256(),
-        label=None
-    )
-)
-message_chiffre = base64.b64encode(encrypted)
-print("Message chiffré: ", message_chiffre)
+message = ("Message a chiffré" + result)
 
 with open("private_key.pem", "rb") as key_file:
     private_key = serialization.load_pem_private_key(
@@ -101,17 +116,26 @@ with open("private_key.pem", "rb") as key_file:
         password=None,
         backend=default_backend()
     )
-message = input("Message à décrypter: ")
-message_decode = base64.b64decode(message)
-original_message = private_key.decrypt(
-    message_decode,
-    padding.OAEP(
-        mgf=padding.MGF1(algorithm=hashes.SHA256()),
-        algorithm=hashes.SHA256(),
-        label=None
+message = ("Message à décrypter: " + cleDeCryptage)
+
+
+def decryptage():
+    message_decode = base64.b64decode(cleDeCryptage)
+    original_message = private_key.decrypt(
+        message_decode,
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
     )
-)
-print("Message déchiffré: ", original_message.decode('UTF-8'))
+    print("Message déchiffré: ", original_message.decode('UTF-8'))
+
+
+# Création d'un btn pour décrypter
+btn_decryptage = tk.Button(
+    text="decrypté le fichier audio", command=decryptage)
+btn_decryptage.pack()
 
 
 # Affichage de la fenêtre
