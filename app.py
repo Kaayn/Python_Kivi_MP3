@@ -81,7 +81,8 @@ with open("public_key.pem", "rb") as key_file:
         key_file.read(),
         backend=default_backend()
     )
-message = texte
+message = input("Message chiffré: ")
+
 
 encrypted = public_key.encrypt(
     bytes(message, 'utf-8'),
