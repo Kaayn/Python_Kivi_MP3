@@ -25,14 +25,16 @@ Librairie a installer :
 
 ### Utilisation
 
-Ouvrez votre terminal, déplacez vous jusqu'a la racine du dossier les fichier sont installés via la commande :
+- Ouvrez votre terminal, déplacez vous jusqu'a la racine du dossier les fichier sont installés via la commande :
 ```
 cd cheminDuDossier
 ```
-Demarrer le programme via votre terminal en entrant la commande suivante : 
+- Demarrer le programme via votre terminal en entrant la commande suivante : 
 
+```
 python .\app.py
+```
 
-L'interface graphique vas s'ouvrir, cliquer alors sur le bouttons "Parcourir" et charger le fichier Rue_Maurice_Carraz_2.waw situé a la racine du projet
+- L'interface graphique vas s'ouvrir, cliquer alors sur le bouttons "Parcourir" et charger le fichier Rue_Maurice_Carraz_2.waw situé a la racine du projet
 
-Cliquez sur le bouton "Crypter" pour crypter le message et l'afficher lorsqu'il est crytpé ; cliquez sur le bouton décrypter pour l'afficher lorsqu'il est décripter.
+- Cliquez sur le bouton "Crypter" pour crypter le message et l'afficher lorsqu'il est crytpé ; cliquez sur le bouton décrypter pour l'afficher lorsqu'il est décripter.
